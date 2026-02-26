@@ -1,26 +1,21 @@
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event, context) => {
-    // No Netlify, verificamos o método via event.httpMethod
     if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ error: 'Método não permitido' })
-        };
+        return { statusCode: 405, body: 'Método não permitido' };
     }
 
     try {
-        // No Netlify, os dados chegam como string no event.body
         const dados = JSON.parse(event.body);
 
-        // 1. Salvar na Planilha (Sheet.best)
+        // 1. Salvar na Planilha
         await fetch('https://api.sheetbest.com/sheets/f7270ca8-0a06-4fed-9f19-e88532c62707', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
         });
 
-        // 2. Configurar o transporte de E-mail
+        // 2. Enviar E-mail
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -29,7 +24,6 @@ exports.handler = async (event, context) => {
             }
         });
 
-        // 3. Enviar o E-mail
         await transporter.sendMail({
             from: `"Convite Online" <${process.env.EMAIL_USER}>`,
             to: process.env.EMAIL_USER,
@@ -39,7 +33,7 @@ exports.handler = async (event, context) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ status: 'Sucesso' })
+            body: JSON.stringify({ message: "Oba! Presença confirmada. 🎉" })
         };
     } catch (error) {
         return {
