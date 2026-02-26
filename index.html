@@ -55,7 +55,7 @@
             };
 
             try {
-                const response = await fetch('/confirmar', {
+                const response = await fetch('/api/confirmar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dados)
