@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniversário no McDonald's! 🍟</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h1>Festa do Heitor!</h1>
+        <div class="convite-para">🍔 Vamos celebrar no McDonald's! 🍟</div>
+        
+        <div class="detalhes-festa">
+            <p><span class="icon">📅</span> Data: <strong> 28 de Março</strong></p>
+            <p><span class="icon">⏰</span> Horário: <strong> às 15h00</strong></p>
+            <p><span class="icon">📍</span> Local: <strong> McDonald's Santo Tirso</strong></p>
+            <p style="font-size: 0.8rem; margin-left: 32px; color: #666;">R. dos Trabalhadores do Arco, 4780-424</p>
+        </div>
+
+        <form id="inviteForm">
+            <input type="text" id="crianca" placeholder="Nome da Criança" required>
+            <input type="text" id="responsavel" placeholder="Nome do Responsável" required>
+            <input type="tel" id="telefone" placeholder="Telemóvel / WhatsApp" required>
+            
+            <button type="submit" id="btnSubmit">Confirmar Presença</button>
+        </form>
+    </div>
+
+    <script>
+        // --- AUTOMAÇÃO DO WHATSAPP NO LINK ---
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const telDoLink = urlParams.get('tel'); // Procura por ?tel=... no link
+            if (telDoLink) {
+                document.getElementById('telefone').value = telDoLink;
+            }
+        };
+
+        const form = document.getElementById('inviteForm');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.innerText = "Confirmando... ⏳";
+            btn.disabled = true;
+
+            const dados = {
+                Crianca: document.getElementById('crianca').value,
+                Responsavel: document.getElementById('responsavel').value,
+                Telefone: document.getElementById('telefone').value,
+                Confirmado: "Sim",
+                Data: new Date().toLocaleString('pt-PT')
+            };
+
+            try {
+                const response = await fetch('/confirmar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                
+                if (response.ok) {
+                    alert('Oba! Presença confirmada. 🎉');
+                    form.reset();
+                } else {
+                    alert('Houve um erro. Tente novamente!');
+                }
+            } catch (error) {
+                alert('Erro de conexão.');
+            } finally {
+                btn.innerText = "Confirmar Presença";
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>
