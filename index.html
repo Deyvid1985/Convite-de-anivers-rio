@@ -27,13 +27,17 @@
             
             <button type="submit" id="btnSubmit">Confirmar Presença</button>
         </form>
+
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #da291c; font-weight: bold;">
+            * Confirmar até 20 de Março
+        </p>
     </div>
 
     <script>
         // --- AUTOMAÇÃO DO WHATSAPP NO LINK ---
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const telDoLink = urlParams.get('tel'); // Procura por ?tel=... no link
+            const telDoLink = urlParams.get('tel'); 
             if (telDoLink) {
                 document.getElementById('telefone').value = telDoLink;
             }
@@ -55,6 +59,7 @@
             };
 
             try {
+                // Rota configurada para funcionar com vercel.json
                 const response = await fetch('/api/confirmar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
