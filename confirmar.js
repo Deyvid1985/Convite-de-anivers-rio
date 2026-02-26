@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        // No Netlify, o corpo da requisição vem como string, precisamos converter
+        // No Netlify, os dados chegam como string no event.body
         const dados = JSON.parse(event.body);
 
         // 1. Salvar na Planilha (Sheet.best)
@@ -37,7 +37,6 @@ exports.handler = async (event, context) => {
             text: `A criança ${dados.Crianca} confirmou presença!\nResponsável: ${dados.Responsavel}\nTelefone: ${dados.Telefone}`
         });
 
-        // Retorno de sucesso obrigatório no formato Netlify
         return {
             statusCode: 200,
             body: JSON.stringify({ status: 'Sucesso' })
