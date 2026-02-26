@@ -17,7 +17,13 @@
             <p><span class="icon">📅</span> Data: <strong> 28 de Março</strong></p>
             <p><span class="icon">⏰</span> Horário: <strong> às 15h00</strong></p>
             <p><span class="icon">📍</span> Local: <strong> McDonald's Santo Tirso</strong></p>
-            <p style="font-size: 0.8rem; margin-left: 32px; color: #666;">R. dos Trabalhadores do Arco, 4780-424</p>
+            <p style="font-size: 0.8rem; margin-left: 32px;">
+                <a href="https://www.google.com/maps/search/?api=1&query=McDonald%27s+Santo+Tirso&query_place_id=ChIJyYEwMnL1JA0RIt62iBMZDQM" 
+                   target="_blank" 
+                   style="color: #666; text-decoration: underline;">
+                   R. dos Trabalhadores do Arco, 4780-424
+                </a>
+            </p>
         </div>
 
         <form id="inviteForm">
@@ -34,7 +40,6 @@
     </div>
 
     <script>
-        // --- AUTOMAÇÃO DO WHATSAPP NO LINK ---
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const telDoLink = urlParams.get('tel'); 
@@ -59,7 +64,6 @@
             };
 
             try {
-                // IMPORTANTE: Mantemos '/api/confirmar' para o netlify.toml funcionar
                 const response = await fetch('/api/confirmar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
