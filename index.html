@@ -59,8 +59,8 @@
             };
 
             try {
-                // Rota configurada para funcionar com vercel.json
-                const response = await fetch('/confirmar', {
+                // IMPORTANTE: Mantemos '/api/confirmar' para o netlify.toml funcionar
+                const response = await fetch('/api/confirmar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dados)
@@ -70,10 +70,10 @@
                     alert('Oba! Presença confirmada. 🎉');
                     form.reset();
                 } else {
-                    alert('Houve um erro. Tente novamente!');
+                    alert('Houve um erro no servidor. Tente novamente!');
                 }
             } catch (error) {
-                alert('Erro de conexão.');
+                alert('Erro de conexão. Verifique sua internet.');
             } finally {
                 btn.innerText = "Confirmar Presença";
                 btn.disabled = false;
